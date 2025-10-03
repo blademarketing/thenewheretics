@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - The New Heretics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --red: #dc2626;
+            --gray-light: #f5f5f5;
+            --gray-text: #404040;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        /* Login Screen */
+        #login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        #login-screen.hidden {
+            display: none;
+        }
+
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--black);
+        }
+
+        .login-logo .red-accent {
+            color: var(--red);
+        }
+
+        .login-subtitle {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.875rem;
+            color: var(--gray-text);
+            margin-bottom: 3rem;
+            letter-spacing: 1px;
+        }
+
+        .login-form {
+            background: var(--gray-light);
+            padding: 2.5rem 2rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .login-form h2 {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--black);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--gray-text);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid #d1d1d1;
+            background: var(--white);
+            color: var(--black);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--red);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 0.875rem;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .login-button:hover {
+            background: var(--red);
+        }
+
+        .error-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: #fee;
+            color: var(--red);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.875rem;
+            border: 1px solid var(--red);
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Admin Screen */
+        #admin-screen {
+            display: none;
+            min-height: 100vh;
+            background: var(--white);
+        }
+
+        #admin-screen.show {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-header {
+            background: var(--white);
+            border-bottom: 1px solid #e5e5e5;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--black);
+        }
+
+        .admin-logo .red-accent {
+            color: var(--red);
+        }
+
+        .logout-button {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.875rem;
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            color: var(--gray-text);
+            border: 1px solid #d1d1d1;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .logout-button:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .admin-title {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+
+        .admin-subtitle {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.875rem;
+            color: var(--gray-text);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .chatbot-container {
+            background: var(--white);
+            border: 1px solid #e5e5e5;
+            min-height: calc(100vh - 300px);
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 1rem;
+            }
+
+            .admin-content {
+                padding: 1rem;
+            }
+
+            .admin-logo {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-container">
+            <div class="login-logo">
+                THE NEW <span class="red-accent">HERETICS</span>
+            </div>
+            <div class="login-subtitle">Administration Portal</div>
+
+            <div class="login-form">
+                <h2>Blog Management Access</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="login-button">Access Admin</button>
+                    <div class="error-message" id="error-message">
+                        Incorrect password. Please try again.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Screen -->
+    <div id="admin-screen">
+        <header class="admin-header">
+            <div class="admin-logo">
+                THE NEW <span class="red-accent">HERETICS</span>
+            </div>
+            <button class="logout-button" id="logout-button">Logout</button>
+        </header>
+
+        <main class="admin-content">
+            <h1 class="admin-title">Blog Management</h1>
+            <p class="admin-subtitle">
+                Use the assistant below to create, edit, publish, and manage your blog posts.
+                The AI assistant has full access to your blog's content management system.
+            </p>
+            <div class="chatbot-container" id="chatbot-container">
+                <!-- Flowise chatbot will be embedded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Flowise Chatbot Embed -->
+    <script type="module">
+        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+
+        // Wait for authentication before initializing chatbot
+        window.initChatbot = function() {
+            Chatbot.init({
+                chatflowid: "ce867594-1a52-4d43-b86a-b1a8d3b9a0d0",
+                apiHost: "https://flowise.blade-marketing.com",
+                chatflowConfig: {},
+                observersConfig: {},
+                theme: {
+                    button: {
+                        backgroundColor: '#dc2626',
+                        right: 20,
+                        bottom: 20,
+                        size: 56,
+                        iconColor: 'white',
+                        customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+                    },
+                    chatWindow: {
+                        showTitle: true,
+                        title: 'Blog Manager',
+                        titleAvatarSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+                        welcomeMessage: 'Hello! I\'m your blog management assistant. How can I help you today?',
+                        errorMessage: 'Oops! Something went wrong. Please try again.',
+                        backgroundColor: '#ffffff',
+                        height: 650,
+                        width: 420,
+                        fontSize: 15,
+                        starterPrompts: [
+                            "List all my blog posts",
+                            "Create a new post",
+                            "Show me my drafts",
+                            "Help me publish a post"
+                        ],
+                        starterPromptFontSize: 14,
+                        clearChatOnReload: false,
+                        renderHTML: true,
+                        botMessage: {
+                            backgroundColor: '#f5f5f5',
+                            textColor: '#000000',
+                            showAvatar: true,
+                            avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/parroticon.png'
+                        },
+                        userMessage: {
+                            backgroundColor: '#dc2626',
+                            textColor: '#ffffff',
+                            showAvatar: true,
+                            avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png'
+                        },
+                        textInput: {
+                            placeholder: 'Ask me anything about your blog...',
+                            backgroundColor: '#ffffff',
+                            textColor: '#000000',
+                            sendButtonColor: '#dc2626',
+                            maxChars: 1000,
+                            autoFocus: true,
+                            sendMessageSound: false,
+                            receiveMessageSound: false
+                        },
+                        feedback: {
+                            color: '#404040'
+                        },
+                        dateTimeToggle: {
+                            date: true,
+                            time: true
+                        },
+                        footer: {
+                            textColor: '#404040',
+                            text: 'Powered by',
+                            company: 'The New Heretics',
+                            companyLink: 'https://thenewheretics.blog'
+                        }
+                    }
+                }
+            })
+        }
+    </script>
+
+    <!-- Authentication Script -->
+    <script>
+        const correctPassword = 'mayaspayas';
+        const loginScreen = document.getElementById('login-screen');
+        const adminScreen = document.getElementById('admin-screen');
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const logoutButton = document.getElementById('logout-button');
+        const passwordInput = document.getElementById('password');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('authenticated') === 'true') {
+            showAdminScreen();
+        }
+
+        // Handle login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = passwordInput.value;
+
+            if (password === correctPassword) {
+                sessionStorage.setItem('authenticated', 'true');
+                showAdminScreen();
+                errorMessage.classList.remove('show');
+                passwordInput.value = '';
+            } else {
+                errorMessage.classList.add('show');
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        });
+
+        // Handle logout
+        logoutButton.addEventListener('click', () => {
+            sessionStorage.removeItem('authenticated');
+            adminScreen.classList.remove('show');
+            loginScreen.classList.remove('hidden');
+            passwordInput.focus();
+        });
+
+        function showAdminScreen() {
+            loginScreen.classList.add('hidden');
+            adminScreen.classList.add('show');
+
+            // Initialize chatbot after authentication
+            if (typeof window.initChatbot === 'function') {
+                window.initChatbot();
+            }
+        }
+    </script>
+</body>
+</html>
