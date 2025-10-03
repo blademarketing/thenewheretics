@@ -11,3 +11,7 @@ dist/
 build/
 .env
 .venv
+
+# Database
+*.db
+instance/
