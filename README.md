@@ -1,33 +1,60 @@
 # The New Heretics Blog
 
-A modern blog platform built with Flask and SQLite, designed for LLM agent integration via Flowise. Features a RESTful API for blog management with API key authentication.
+A dark, minimalist blog platform built with Flask and SQLite, featuring AI-powered content management through Flowise LLM agents. Designed for Hedvig D. Knox's fearless essays on culture, ideology, and truth.
 
 **Live Site**: [https://thenewheretics.blog](https://thenewheretics.blog)
+**Admin Panel**: [https://thenewheretics.blog/admin](https://thenewheretics.blog/admin) (Password: `mayaspayas`)
+
+**Tagline**: *"Where the need for belonging ends, truth begins."*
 
 ---
 
 ## 🚀 Features
 
+### Blog Frontend
+- **Dark Minimalist Design** - Black (#0A0A0A) background with red (#E10600) accents
+- **Home Page** - Hero tagline + featured post + recent posts list
+- **Post Pages** - Clean, readable typography with markdown rendering
+- **Archive Page** - All posts grouped by year
+- **RSS Feed** - Standard RSS 2.0 feed
+- **Social Sharing** - Copy link, X/Twitter, LinkedIn share buttons
+- **SEO Optimized** - Meta tags, Open Graph, Twitter cards, canonical URLs
+- **Mobile Responsive** - Mobile-first design, works on all devices
+- **Accessibility** - WCAG AA+ compliant, skip links, keyboard navigation
+
+### Admin Panel
+- **Password Protected** - Session-based authentication (`/admin`)
+- **AI Chat Interface** - Full-page Flowise chatbot embed
+- **Dark Theme** - Matches main blog aesthetic
+- **Conversational Management** - Create, list, publish, delete posts via chat
+- **Automatic Metadata** - AI generates tags and excerpts automatically
+- **Mobile Optimized** - Responsive design for all devices
+
+### API Backend
 - **RESTful API** - Complete CRUD operations for blog posts
 - **SQLite Database** - Lightweight, local database storage
 - **API Authentication** - Secure API key-based authentication
-- **LLM Agent Integration** - Pre-built Flowise tools for AI-powered blog management
+- **LLM Agent Integration** - Pre-built Flowise tools
 - **Draft System** - Create drafts before publishing
 - **Tagging System** - Organize posts with tags
 - **Auto-generated Slugs** - URL-friendly slugs from titles
 - **Search & Filtering** - Search by content, filter by tags, published status
+- **Markdown Support** - Rich text formatting with markdown
 - **Postman Collection** - Ready-to-use API testing collection
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Python 3.12, Flask 3.1.2
+- **Backend**: Python 3.12, Flask 3.1.2, Flask-SQLAlchemy
 - **Database**: SQLite with SQLAlchemy ORM
+- **Templates**: Jinja2
+- **Content**: Markdown (python-markdown library)
 - **Web Server**: Nginx (reverse proxy)
-- **WSGI Server**: Gunicorn (3 workers)
-- **Process Manager**: systemd
-- **SSL**: Let's Encrypt (certbot)
+- **WSGI Server**: Gunicorn (3 workers on port 7701)
+- **Process Manager**: systemd service
+- **SSL**: Let's Encrypt (certbot, auto-renewal)
+- **LLM Integration**: Flowise AI agent with custom tools
 - **Environment**: Python venv, python-dotenv
 
 ---
@@ -250,15 +277,36 @@ Pre-built Flowise tools are available in the `flowise-tools/` directory.
 
 ### Setup in Flowise
 
-1. Go to Flowise Settings → Variables
-2. Add custom variable:
-   - **Name**: `nh_api_key`
-   - **Value**: `98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM`
+1. **Set Custom Variable**:
+   - Go to Flowise Settings → Variables
+   - Add: `nh_api_key` = `98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM`
 
-3. Import tools from `flowise-tools/` directory
-4. Configure Input Schema properties as documented in each tool
+2. **Import System Prompt**:
+   - Copy content from `flowise-tools/SYSTEM_PROMPT.md`
+   - Paste into your Flowise agent's system prompt
+   - Enables automatic metadata generation and user-friendly interactions
 
-See [flowise-tools/README.md](flowise-tools/README.md) for detailed instructions.
+3. **Import Tools**:
+   - Import each `.js` file from `flowise-tools/` as a Custom Tool
+   - Configure Input Schema properties as documented in comments
+
+4. **Configure Chatflow**:
+   - Enable conversation memory for context
+   - Connect all 4 tools to your agent
+   - Deploy to get chatflow ID
+
+See [flowise-tools/README.md](flowise-tools/README.md) and [flowise-tools/SYSTEM_PROMPT.md](flowise-tools/SYSTEM_PROMPT.md) for detailed instructions.
+
+### Admin Panel Usage
+
+1. Navigate to [https://thenewheretics.blog/admin](https://thenewheretics.blog/admin)
+2. Login with password: `mayaspayas`
+3. Use the AI chat interface to:
+   - Create posts: "Write a post about [topic]"
+   - List posts: "Show me all blog titles"
+   - Publish: "Publish post 1" or "Publish my latest draft"
+   - Delete: "Delete post 3"
+   - The AI automatically generates tags and excerpts
 
 ---
 
@@ -279,21 +327,32 @@ Import the ready-to-use Postman collection:
 
 ```
 thenewheretics.blog/
-├── app.py                          # Main Flask application
+├── app.py                          # Main Flask application with routes
 ├── models.py                       # SQLAlchemy database models
 ├── requirements.txt                # Python dependencies
 ├── .env                           # Environment variables (not in git)
 ├── .gitignore                     # Git ignore rules
 ├── blog.db                        # SQLite database (not in git)
-├── templates/
-│   └── index.html                 # Coming soon page
+├── templates/                     # Jinja2 templates
+│   ├── base.html                  # Base layout with header/footer
+│   ├── home.html                  # Homepage (hero + featured + recent)
+│   ├── post.html                  # Individual post page
+│   └── archive.html               # Archive page (posts by year)
+├── static/                        # Static assets
+│   ├── css/
+│   │   └── style.css              # Main stylesheet (dark theme)
+│   └── images/
+│       └── nh-logo.png            # The New Heretics logo
+├── admin/                         # Admin panel (static HTML)
+│   └── index.html                 # Password-protected admin interface
 ├── flowise-tools/                 # Flowise LLM agent tools
 │   ├── README.md                  # Flowise tools documentation
-│   ├── list-blog-posts.js         # List/search posts
-│   ├── create-post.js             # Create new posts
-│   ├── toggle-publish-post.js     # Publish/unpublish
-│   ├── delete-post.js             # Delete posts
-│   └── flowise-tool-example.js    # Example tool structure
+│   ├── SYSTEM_PROMPT.md           # System prompt for Flowise agent
+│   ├── list-blog-posts.js         # List/search posts tool
+│   ├── create-post.js             # Create new posts tool
+│   ├── toggle-publish-post.js     # Publish/unpublish tool
+│   ├── delete-post.js             # Delete posts tool
+│   └── chatbot-embed-config.html  # Example embed configuration
 └── The_New_Heretics_Blog_API.postman_collection.json
 ```
 
@@ -458,30 +517,73 @@ This is a private project. For issues or suggestions, contact the repository own
 
 ---
 
-## 🎯 Roadmap
+## 🎨 Design Philosophy
 
-### Current Features
-- ✅ RESTful API with authentication
-- ✅ SQLite database
-- ✅ Draft and publish workflow
-- ✅ Tagging system
-- ✅ Search and filtering
-- ✅ Flowise LLM agent tools
-- ✅ Production deployment
-- ✅ SSL encryption
+**Visual Identity** (per `the-new-heretics-dev-spec.md`):
+- **Dark minimalist aesthetic** - Black background, white text, red accents
+- **Typography**: Inter/Helvetica for headings, Georgia serif for body
+- **Color Palette**: #0A0A0A (bg), #F5F5F5 (text), #E10600 (accent red)
+- **Text-first** - No stock images, pure content focus
+- **Mobile-first** - Responsive design prioritizing readability
 
-### Future Enhancements
-- [ ] Frontend blog interface
-- [ ] Rich text editor integration
-- [ ] Image upload support
-- [ ] Categories/taxonomies
-- [ ] Comments system
-- [ ] RSS feed
-- [ ] Analytics integration
-- [ ] Multi-author support
-- [ ] SEO optimization
-- [ ] Markdown support
+**Persona**: Hedvig D. Knox - Intellectual but rebellious, fearless essays
 
 ---
 
-**Built with ❤️ for thought-provoking content**
+## 🎯 System Architecture
+
+### Frontend (User-Facing Blog)
+- **Home** (`/`) - Hero + featured post + recent posts
+- **Posts** (`/posts/{slug}/`) - Individual post pages with sharing
+- **Archive** (`/archive/`) - Chronological post index grouped by year
+- **RSS** (`/rss.xml`) - RSS 2.0 feed for subscribers
+
+### Admin Panel
+- **Login** (`/admin/`) - Password-protected access
+- **AI Chat Interface** - Full-page Flowise chatbot embed
+- **Conversational Management** - Natural language blog management
+- **Features**: Create, list, publish, delete posts through conversation
+
+### API Backend
+- **REST Endpoints** - Full CRUD for blog posts
+- **Authentication** - API key header (`X-API-Key`)
+- **Database** - SQLite with SQLAlchemy ORM
+- **Server** - Gunicorn (3 workers) on port 7701 (localhost only)
+- **Reverse Proxy** - Nginx with SSL (Let's Encrypt)
+
+### LLM Agent Integration
+- **4 Flowise Tools** - List, Create, Publish, Delete
+- **System Prompt** - Optimized for non-technical users
+- **Auto-Metadata** - Agent generates tags/excerpts automatically
+- **Memory-Enabled** - Conversational context across interactions
+
+---
+
+## 🎯 Current Status
+
+### ✅ Completed Features
+- Dark minimalist blog design with logo
+- Full blog frontend (home, posts, archive, RSS)
+- Admin panel with AI chat interface
+- RESTful API with authentication
+- 4 Flowise tools for LLM management
+- Social sharing buttons
+- Markdown content support
+- SEO optimization
+- SSL encryption
+- Production deployment
+- Mobile responsive design
+- Password-protected admin access
+
+### 🔮 Future Enhancements
+- [ ] Rich text editor for manual editing
+- [ ] Image upload and management
+- [ ] Comments system
+- [ ] Analytics integration
+- [ ] Newsletter/email subscription
+- [ ] Multi-author support
+- [ ] Category taxonomies beyond tags
+
+---
+
+**Built with ❤️ for fearless, thought-provoking essays**
