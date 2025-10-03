@@ -217,15 +217,24 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.875rem;
             color: var(--gray-text);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             line-height: 1.5;
+            max-width: 800px;
         }
 
-        .chatbot-container {
-            background: var(--white);
-            border: 1px solid #e5e5e5;
-            min-height: calc(100vh - 300px);
-            position: relative;
+        .instructions {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.875rem;
+            color: var(--gray-text);
+            padding: 1.5rem;
+            background: var(--gray-light);
+            border-left: 3px solid var(--red);
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        .instructions strong {
+            color: var(--black);
         }
 
         @media (max-width: 768px) {
@@ -287,11 +296,22 @@
         <main class="admin-content">
             <h1 class="admin-title">Blog Management</h1>
             <p class="admin-subtitle">
-                Use the assistant below to create, edit, publish, and manage your blog posts.
-                The AI assistant has full access to your blog's content management system.
+                Manage your blog through conversation with the AI assistant.
+                Click the red chat button in the bottom right to get started.
             </p>
-            <div class="chatbot-container" id="chatbot-container">
-                <!-- Flowise chatbot will be embedded here -->
+
+            <div class="instructions">
+                <strong>What you can do:</strong><br>
+                • Create new blog posts from ideas or full content<br>
+                • List and search existing posts<br>
+                • Publish or unpublish posts<br>
+                • Delete posts<br>
+                • Get help with writing and formatting<br><br>
+
+                <strong>Tips:</strong><br>
+                • The assistant automatically adds tags and excerpts<br>
+                • Posts are saved as drafts by default<br>
+                • Say "publish" when you're ready to make a post live
             </div>
         </main>
     </div>
