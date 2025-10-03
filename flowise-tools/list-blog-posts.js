@@ -2,9 +2,7 @@
 * Tool: List Blog Posts
 * Description: Retrieve all blog posts from The New Heretics blog with optional filtering
 *
-* REQUIRED VARIABLES (set in Flowise):
-* - API_KEY: Your blog API key (98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM)
-*   Set this as a custom variable in Flowise: $vars.API_KEY
+* REQUIRED VARIABLES: None (this is a public endpoint)
 *
 * OPTIONAL INPUT SCHEMA PROPERTIES:
 * - published (boolean): Filter to only published posts (true/false)
@@ -25,28 +23,27 @@ const fetch = require('node-fetch');
 
 // CONFIGURATION - Update if needed
 const BASE_URL = 'https://thenewheretics.blog';
-const API_KEY = $vars.API_KEY; // Set this variable in Flowise custom variables
 
-// Build query parameters
-const params = new URLSearchParams();
+// Build query parameters manually (URLSearchParams not available in Flowise)
+const queryParams = [];
 
 // Add optional filters if provided
 if (typeof $published !== 'undefined') {
-    params.append('published', $published);
+    queryParams.push(`published=${$published}`);
 }
 if (typeof $search !== 'undefined' && $search) {
-    params.append('search', $search);
+    queryParams.push(`search=${encodeURIComponent($search)}`);
 }
 if (typeof $tag !== 'undefined' && $tag) {
-    params.append('tag', $tag);
+    queryParams.push(`tag=${encodeURIComponent($tag)}`);
 }
 if (typeof $limit !== 'undefined' && $limit) {
-    params.append('limit', $limit);
+    queryParams.push(`limit=${$limit}`);
 }
 
 // Build URL with query parameters
-const queryString = params.toString();
-const url = `${BASE_URL}/api/posts${queryString ? '?' + queryString : ''}`;
+const queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+const url = `${BASE_URL}/api/posts${queryString}`;
 
 const options = {
     method: 'GET',
