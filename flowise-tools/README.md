@@ -10,7 +10,7 @@ Before using these tools, you must set the API key as a custom variable in Flowi
 
 1. Go to Flowise Settings → Variables
 2. Add a new variable:
-   - **Name**: `API_KEY`
+   - **Name**: `nh_api_key`
    - **Value**: `98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM`
 
 ### 2. Import Tools into Flowise
@@ -29,7 +29,7 @@ For each tool:
 **Purpose**: Retrieve all blog posts with optional filtering
 
 **Required Variables**:
-- `API_KEY` (set in Flowise custom variables)
+- None (this is a public endpoint, no authentication needed)
 
 **Optional Input Schema Properties**:
 - `published` (boolean) - Filter to only published posts
@@ -50,7 +50,7 @@ For each tool:
 **Purpose**: Publish or unpublish a blog post (toggles current state)
 
 **Required Variables**:
-- `API_KEY` (set in Flowise custom variables)
+- `nh_api_key` (set in Flowise custom variables)
 
 **Required Input Schema Properties**:
 - `postId` (number) - The ID of the post to publish/unpublish
@@ -67,7 +67,7 @@ For each tool:
 **Purpose**: Permanently delete a blog post
 
 **Required Variables**:
-- `API_KEY` (set in Flowise custom variables)
+- `nh_api_key` (set in Flowise custom variables)
 
 **Required Input Schema Properties**:
 - `postId` (number) - The ID of the post to delete
@@ -123,8 +123,8 @@ See the Postman collection for full API documentation.
 ## Troubleshooting
 
 **Error: "Authentication failed"**
-- Ensure `API_KEY` is set correctly in Flowise custom variables
-- Check that the variable name is exactly `API_KEY`
+- Ensure `nh_api_key` is set correctly in Flowise custom variables
+- Check that the variable name is exactly `nh_api_key`
 
 **Error: "Post not found"**
 - Verify the post ID exists by listing all posts first
@@ -132,4 +132,4 @@ See the Postman collection for full API documentation.
 
 **Error: "Invalid or missing API key"**
 - The API key header is missing or incorrect
-- Verify the tool is accessing `$vars.API_KEY` correctly
+- Verify the tool is accessing `$vars.nh_api_key` correctly

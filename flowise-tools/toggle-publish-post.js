@@ -3,8 +3,8 @@
 * Description: Toggle the publish status of a blog post (publish if unpublished, unpublish if published)
 *
 * REQUIRED VARIABLES (set in Flowise):
-* - API_KEY: Your blog API key (98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM)
-*   Set this as a custom variable in Flowise: $vars.API_KEY
+* - nh_api_key: Your blog API key (98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM)
+*   Set this as a custom variable in Flowise: $vars.nh_api_key
 *
 * REQUIRED INPUT SCHEMA PROPERTIES:
 * - postId (number): The ID of the blog post to publish/unpublish
@@ -21,7 +21,7 @@ const fetch = require('node-fetch');
 
 // CONFIGURATION - Update if needed
 const BASE_URL = 'https://thenewheretics.blog';
-const API_KEY = $vars.API_KEY; // Set this variable in Flowise custom variables
+const API_KEY = $vars.nh_api_key; // Set this variable in Flowise custom variables
 
 // Validate postId is provided
 if (typeof $postId === 'undefined' || !$postId) {

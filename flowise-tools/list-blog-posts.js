@@ -2,7 +2,9 @@
 * Tool: List Blog Posts
 * Description: Retrieve all blog posts from The New Heretics blog with optional filtering
 *
-* REQUIRED VARIABLES: None (this is a public endpoint)
+* REQUIRED VARIABLES: None (this is a public endpoint, no authentication needed)
+*
+* NOTE: Other tools require nh_api_key variable in Flowise (set as $vars.nh_api_key)
 *
 * OPTIONAL INPUT SCHEMA PROPERTIES:
 * - published (boolean): Filter to only published posts (true/false)
