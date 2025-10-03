@@ -12,17 +12,18 @@
         }
 
         :root {
-            --white: #ffffff;
-            --black: #000000;
-            --red: #dc2626;
-            --gray-light: #f5f5f5;
-            --gray-text: #404040;
+            --bg: #0A0A0A;
+            --surface: #111111;
+            --text: #F5F5F5;
+            --muted: #B3B3B3;
+            --accent: #E10600;
+            --rule: #222222;
         }
 
         body {
             font-family: Georgia, 'Times New Roman', serif;
-            background-color: var(--white);
-            color: var(--black);
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
         }
 
@@ -41,45 +42,43 @@
         }
 
         .login-container {
-            max-width: 400px;
+            max-width: 420px;
             width: 100%;
             text-align: center;
         }
 
         .login-logo {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            color: var(--black);
+            margin-bottom: 2rem;
         }
 
-        .login-logo .red-accent {
-            color: var(--red);
+        .login-logo img {
+            height: 48px;
+            width: auto;
         }
 
         .login-subtitle {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.875rem;
-            color: var(--gray-text);
+            color: var(--muted);
             margin-bottom: 3rem;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .login-form {
-            background: var(--gray-light);
+            background: var(--surface);
             padding: 2.5rem 2rem;
-            border: 1px solid #e5e5e5;
+            border: 1px solid var(--rule);
         }
 
         .login-form h2 {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.125rem;
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
-            color: var(--black);
+            color: var(--text);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .form-group {
@@ -88,56 +87,57 @@
         }
 
         .form-group label {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
             display: block;
             font-size: 0.875rem;
             font-weight: 500;
             margin-bottom: 0.5rem;
-            color: var(--gray-text);
+            color: var(--muted);
+            letter-spacing: 0.04em;
         }
 
         .form-group input {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             font-size: 1rem;
-            border: 1px solid #d1d1d1;
-            background: var(--white);
-            color: var(--black);
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            border: 1px solid var(--rule);
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--red);
+            border-color: var(--accent);
         }
 
         .login-button {
             width: 100%;
             padding: 0.875rem;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.875rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            background: var(--black);
-            color: var(--white);
+            background: var(--accent);
+            color: var(--text);
             border: none;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: opacity 0.2s;
         }
 
         .login-button:hover {
-            background: var(--red);
+            opacity: 0.9;
         }
 
         .error-message {
             margin-top: 1rem;
             padding: 0.75rem;
-            background: #fee;
-            color: var(--red);
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: rgba(225, 6, 0, 0.1);
+            color: var(--accent);
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.875rem;
-            border: 1px solid var(--red);
+            border: 1px solid var(--accent);
             display: none;
         }
 
@@ -149,7 +149,7 @@
         #admin-screen {
             display: none;
             min-height: 100vh;
-            background: var(--white);
+            background: var(--bg);
         }
 
         #admin-screen.show {
@@ -158,43 +158,42 @@
         }
 
         .admin-header {
-            background: var(--white);
-            border-bottom: 1px solid #e5e5e5;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid var(--rule);
             padding: 1.25rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: saturate(140%) blur(6px);
         }
 
         .admin-logo {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--black);
+            display: flex;
+            align-items: center;
         }
 
-        .admin-logo .red-accent {
-            color: var(--red);
+        .admin-logo img {
+            height: 36px;
+            width: auto;
         }
 
         .logout-button {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 0.875rem;
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
             padding: 0.5rem 1.5rem;
             background: transparent;
-            color: var(--gray-text);
-            border: 1px solid #d1d1d1;
+            color: var(--muted);
+            border: 1px solid var(--rule);
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.06em;
         }
 
         .logout-button:hover {
-            border-color: var(--red);
-            color: var(--red);
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .admin-content {
@@ -206,28 +205,29 @@
         }
 
         .admin-title {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
             font-size: 1.75rem;
-            font-weight: 600;
+            font-weight: 800;
             margin-bottom: 0.5rem;
-            color: var(--black);
+            color: var(--text);
+            letter-spacing: 0.02em;
         }
 
         .admin-subtitle {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.875rem;
-            color: var(--gray-text);
-            margin-bottom: 3rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
             line-height: 1.5;
             max-width: 800px;
         }
 
         .chatbot-wrapper {
             width: 100%;
-            height: calc(100vh - 200px);
+            height: calc(100vh - 220px);
             min-height: 500px;
-            background: var(--white);
-            border: 1px solid #e5e5e5;
+            background: var(--surface);
+            border: 1px solid var(--rule);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -248,9 +248,8 @@
                 padding: 1rem;
             }
 
-            .admin-logo {
-                font-size: 0.875rem;
-                letter-spacing: 1px;
+            .admin-logo img {
+                height: 28px;
             }
 
             .admin-title {
@@ -263,13 +262,17 @@
             }
 
             .logout-button {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
                 padding: 0.375rem 1rem;
             }
 
             .chatbot-wrapper {
                 height: calc(100vh - 160px);
                 min-height: 400px;
+            }
+
+            .login-logo img {
+                height: 40px;
             }
         }
     </style>
@@ -279,7 +282,7 @@
     <div id="login-screen">
         <div class="login-container">
             <div class="login-logo">
-                THE NEW <span class="red-accent">HERETICS</span>
+                <img src="/static/images/nh-logo.png" alt="The New Heretics">
             </div>
             <div class="login-subtitle">Administration Portal</div>
 
@@ -310,7 +313,7 @@
     <div id="admin-screen">
         <header class="admin-header">
             <div class="admin-logo">
-                THE NEW <span class="red-accent">HERETICS</span>
+                <img src="/static/images/nh-logo.png" alt="The New Heretics">
             </div>
             <button class="logout-button" id="logout-button">Logout</button>
         </header>
@@ -346,7 +349,7 @@
                         titleAvatarSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
                         welcomeMessage: 'Hello! I\'m your blog management assistant. How can I help you today?',
                         errorMessage: 'Oops! Something went wrong. Please try again.',
-                        backgroundColor: '#ffffff',
+                        backgroundColor: '#111111',
                         height: '100%',
                         width: '100%',
                         fontSize: 15,
@@ -360,36 +363,36 @@
                         clearChatOnReload: false,
                         renderHTML: true,
                         botMessage: {
-                            backgroundColor: '#f5f5f5',
-                            textColor: '#000000',
+                            backgroundColor: '#0A0A0A',
+                            textColor: '#F5F5F5',
                             showAvatar: true,
                             avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/parroticon.png'
                         },
                         userMessage: {
-                            backgroundColor: '#dc2626',
-                            textColor: '#ffffff',
+                            backgroundColor: '#E10600',
+                            textColor: '#F5F5F5',
                             showAvatar: true,
                             avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png'
                         },
                         textInput: {
                             placeholder: 'Ask me anything about your blog...',
-                            backgroundColor: '#ffffff',
-                            textColor: '#000000',
-                            sendButtonColor: '#dc2626',
+                            backgroundColor: '#0A0A0A',
+                            textColor: '#F5F5F5',
+                            sendButtonColor: '#E10600',
                             maxChars: 1000,
                             autoFocus: true,
                             sendMessageSound: false,
                             receiveMessageSound: false
                         },
                         feedback: {
-                            color: '#404040'
+                            color: '#B3B3B3'
                         },
                         dateTimeToggle: {
                             date: true,
                             time: true
                         },
                         footer: {
-                            textColor: '#404040',
+                            textColor: '#B3B3B3',
                             text: 'Powered by',
                             company: 'The New Heretics',
                             companyLink: 'https://thenewheretics.blog'
