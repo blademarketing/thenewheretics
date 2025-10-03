@@ -16,6 +16,11 @@
 				"key": "key",
 				"value": "X-API-Key",
 				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
 			}
 		]
 	},
