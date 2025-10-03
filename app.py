@@ -76,7 +76,15 @@ def post(slug):
     post = BlogPost.query.filter_by(slug=slug, is_published=True).first_or_404()
     # Format content as HTML
     post.content = format_content(post.content)
-    return render_template('post.html', post=post)
+
+    # Get 2 random posts excluding current post
+    from sqlalchemy.sql.expression import func
+    random_posts = BlogPost.query.filter(
+        BlogPost.id != post.id,
+        BlogPost.is_published == True
+    ).order_by(func.random()).limit(2).all()
+
+    return render_template('post.html', post=post, random_posts=random_posts)
 
 @app.route('/archive/')
 def archive():

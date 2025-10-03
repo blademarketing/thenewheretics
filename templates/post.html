@@ -54,6 +54,23 @@
     </div>
 </article>
 
+{% if random_posts %}
+<section class="continue-reading">
+    <h2>Continue Reading</h2>
+    <div class="related-posts">
+        {% for related_post in random_posts %}
+        <article class="related-post">
+            <h3><a href="{{ url_for('post', slug=related_post.slug) }}">{{ related_post.title }}</a></h3>
+            <p class="meta">{{ related_post.published_at.strftime('%b %d, %Y') if related_post.published_at else related_post.created_at.strftime('%b %d, %Y') }}</p>
+            {% if related_post.excerpt %}
+            <p class="excerpt">{{ related_post.excerpt }}</p>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
 <script>
 document.querySelector('.copy-link').addEventListener('click', function() {
     const url = this.getAttribute('data-url');
