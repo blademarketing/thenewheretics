@@ -45,7 +45,37 @@ For each tool:
 
 ---
 
-### 2. Toggle Publish Post (`toggle-publish-post.js`)
+### 2. Create Blog Post (`create-post.js`)
+
+**Purpose**: Create a new blog post with title, content, and optional metadata
+
+**Required Variables**:
+- `nh_api_key` (set in Flowise custom variables)
+
+**Required Input Schema Properties**:
+- `title` (string) - The title of the blog post
+- `content` (string) - The full content/body of the post
+
+**Optional Input Schema Properties**:
+- `excerpt` (string) - A short summary of the post
+- `author` (string) - Author name (defaults to "The New Heretics")
+- `tags` (string) - Comma-separated tags (e.g., "philosophy,technology")
+- `is_published` (boolean) - Publish immediately (default: false/draft)
+
+**Example User Commands**:
+- "Create a blog post titled 'The Future of AI' with content about..."
+- "Write a new post about philosophy and technology"
+- "Draft a blog post called 'Hello World'"
+
+**Features**:
+- Auto-generates URL-friendly slug from title
+- Creates as draft by default (can publish immediately with is_published: true)
+- Supports tags for categorization
+- Returns post ID and URL
+
+---
+
+### 3. Toggle Publish Post (`toggle-publish-post.js`)
 
 **Purpose**: Publish or unpublish a blog post (toggles current state)
 
@@ -62,7 +92,7 @@ For each tool:
 
 ---
 
-### 3. Delete Post (`delete-post.js`)
+### 4. Delete Post (`delete-post.js`)
 
 **Purpose**: Permanently delete a blog post
 
@@ -86,6 +116,7 @@ For each tool:
 All tools connect to: `https://thenewheretics.blog`
 
 ### Authenticated Endpoints (require API key):
+- `POST /api/posts` - Create new post
 - `PATCH /api/posts/{id}/publish` - Toggle publish status
 - `DELETE /api/posts/{id}` - Delete post
 
@@ -101,8 +132,7 @@ All tools connect to: `https://thenewheretics.blog`
 
 Based on the API, you can create additional tools for:
 
-- **Create Post**: `POST /api/posts` (requires: title, content)
-- **Update Post**: `PUT /api/posts/{id}` (update title, content, etc.)
+- **Update Post**: `PUT /api/posts/{id}` (update title, content, tags, etc.)
 - **Get Post by ID**: `GET /api/posts/{id}` (get specific post details)
 - **Get Drafts**: `GET /api/posts/drafts` (list all draft posts)
 - **Get Statistics**: `GET /api/posts/stats` (blog statistics)
