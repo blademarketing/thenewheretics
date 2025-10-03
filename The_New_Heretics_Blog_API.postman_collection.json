@@ -1,0 +1,324 @@
+{
+	"info": {
+		"name": "The New Heretics Blog API",
+		"description": "Complete API collection for managing The New Heretics blog. Includes authentication via X-API-Key header.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Public Endpoints",
+			"item": [
+				{
+					"name": "Get All Posts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "published",
+									"value": "true",
+									"disabled": true,
+									"description": "Filter to only published posts"
+								},
+								{
+									"key": "search",
+									"value": "keyword",
+									"disabled": true,
+									"description": "Search in title and content"
+								},
+								{
+									"key": "tag",
+									"value": "tagname",
+									"disabled": true,
+									"description": "Filter by tag"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true,
+									"description": "Limit number of results"
+								}
+							]
+						},
+						"description": "Get all blog posts. Supports filtering by published status, search term, tag, and limit."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/1",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"1"
+							]
+						},
+						"description": "Get a single blog post by its ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post by Slug",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/slug/welcome-to-the-new-heretics",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"slug",
+								"welcome-to-the-new-heretics"
+							]
+						},
+						"description": "Get a blog post by its URL-friendly slug."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Published Posts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/published",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"published"
+							]
+						},
+						"description": "Get all published blog posts, ordered by published date."
+					},
+					"response": []
+				}
+			],
+			"description": "Public endpoints that don't require authentication."
+		},
+		{
+			"name": "Post Management",
+			"item": [
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"My New Blog Post\",\n  \"content\": \"This is the full content of the blog post. It can be as long as needed.\",\n  \"excerpt\": \"A short summary of the post\",\n  \"author\": \"The New Heretics\",\n  \"tags\": [\"philosophy\", \"technology\"],\n  \"is_published\": false\n}"
+						},
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						},
+						"description": "Create a new blog post. Requires title and content. Slug is auto-generated if not provided."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Title\",\n  \"content\": \"Updated content goes here\",\n  \"excerpt\": \"Updated excerpt\",\n  \"tags\": [\"updated\", \"modified\"],\n  \"is_published\": true\n}"
+						},
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/1",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"1"
+							]
+						},
+						"description": "Update an existing blog post. All fields are optional - only provided fields will be updated."
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Publish Status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/1/publish",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"1",
+								"publish"
+							]
+						},
+						"description": "Toggle the publish status of a post. If unpublished, it will be published (and vice versa)."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/1",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"1"
+							]
+						},
+						"description": "Permanently delete a blog post."
+					},
+					"response": []
+				}
+			],
+			"description": "Authenticated endpoints for managing blog posts (create, update, publish, delete).",
+			"auth": {
+				"type": "inherit"
+			}
+		},
+		{
+			"name": "Admin Endpoints",
+			"item": [
+				{
+					"name": "Get Draft Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/drafts",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"drafts"
+							]
+						},
+						"description": "Get all unpublished draft posts."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blog Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://thenewheretics.blog/api/posts/stats",
+							"protocol": "https",
+							"host": [
+								"thenewheretics",
+								"blog"
+							],
+							"path": [
+								"api",
+								"posts",
+								"stats"
+							]
+						},
+						"description": "Get statistics about the blog (total posts, published count, draft count)."
+					},
+					"response": []
+				}
+			],
+			"description": "Administrative endpoints requiring authentication.",
+			"auth": {
+				"type": "inherit"
+			}
+		}
+	]
+}

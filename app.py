@@ -1,13 +1,32 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 from models import db, BlogPost
+from functools import wraps
 import re
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# API Key configuration
+API_KEY = os.getenv('API_KEY')
+
+def require_api_key(f):
+    """Decorator to require API key authentication"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        provided_key = request.headers.get('X-API-Key')
+        if not provided_key or provided_key != API_KEY:
+            return jsonify({'error': 'Invalid or missing API key'}), 401
+        return f(*args, **kwargs)
+    return decorated_function
 
 # Initialize database
 db.init_app(app)
@@ -76,6 +95,7 @@ def get_post_by_slug(slug):
     return jsonify(post.to_dict())
 
 @app.route('/api/posts', methods=['POST'])
+@require_api_key
 def create_post():
     """Create a new blog post"""
     data = request.get_json()
@@ -109,6 +129,7 @@ def create_post():
     return jsonify(post.to_dict()), 201
 
 @app.route('/api/posts/<int:post_id>', methods=['PUT'])
+@require_api_key
 def update_post(post_id):
     """Update an existing blog post"""
     post = BlogPost.query.get_or_404(post_id)
@@ -158,6 +179,7 @@ def update_post(post_id):
     return jsonify(post.to_dict())
 
 @app.route('/api/posts/<int:post_id>/publish', methods=['PATCH'])
+@require_api_key
 def toggle_publish(post_id):
     """Publish or unpublish a blog post"""
     post = BlogPost.query.get_or_404(post_id)
@@ -174,6 +196,7 @@ def toggle_publish(post_id):
     return jsonify(post.to_dict())
 
 @app.route('/api/posts/<int:post_id>', methods=['DELETE'])
+@require_api_key
 def delete_post(post_id):
     """Delete a blog post"""
     post = BlogPost.query.get_or_404(post_id)
@@ -184,6 +207,7 @@ def delete_post(post_id):
     return jsonify({'message': 'Post deleted successfully'}), 200
 
 @app.route('/api/posts/drafts', methods=['GET'])
+@require_api_key
 def get_drafts():
     """Get all draft (unpublished) posts"""
     drafts = BlogPost.query.filter_by(is_published=False).order_by(BlogPost.created_at.desc()).all()
@@ -196,6 +220,7 @@ def get_published():
     return jsonify([post.to_dict() for post in published])
 
 @app.route('/api/posts/stats', methods=['GET'])
+@require_api_key
 def get_stats():
     """Get blog statistics"""
     total = BlogPost.query.count()
