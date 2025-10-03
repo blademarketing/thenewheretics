@@ -222,19 +222,19 @@
             max-width: 800px;
         }
 
-        .instructions {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 0.875rem;
-            color: var(--gray-text);
-            padding: 1.5rem;
-            background: var(--gray-light);
-            border-left: 3px solid var(--red);
-            max-width: 800px;
-            line-height: 1.6;
+        .chatbot-wrapper {
+            width: 100%;
+            height: calc(100vh - 220px);
+            min-height: 600px;
+            background: var(--white);
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
-        .instructions strong {
-            color: var(--black);
+        flowise-fullchatbot {
+            width: 100%;
+            height: 100%;
         }
 
         @media (max-width: 768px) {
@@ -296,22 +296,11 @@
         <main class="admin-content">
             <h1 class="admin-title">Blog Management</h1>
             <p class="admin-subtitle">
-                Manage your blog through conversation with the AI assistant.
-                Click the red chat button in the bottom right to get started.
+                Manage your blog through conversation with the AI assistant below.
             </p>
 
-            <div class="instructions">
-                <strong>What you can do:</strong><br>
-                • Create new blog posts from ideas or full content<br>
-                • List and search existing posts<br>
-                • Publish or unpublish posts<br>
-                • Delete posts<br>
-                • Get help with writing and formatting<br><br>
-
-                <strong>Tips:</strong><br>
-                • The assistant automatically adds tags and excerpts<br>
-                • Posts are saved as drafts by default<br>
-                • Say "publish" when you're ready to make a post live
+            <div class="chatbot-wrapper">
+                <flowise-fullchatbot></flowise-fullchatbot>
             </div>
         </main>
     </div>
@@ -322,29 +311,22 @@
 
         // Wait for authentication before initializing chatbot
         window.initChatbot = function() {
-            Chatbot.init({
+            Chatbot.initFull({
                 chatflowid: "ce867594-1a52-4d43-b86a-b1a8d3b9a0d0",
                 apiHost: "https://flowise.blade-marketing.com",
                 chatflowConfig: {},
                 observersConfig: {},
                 theme: {
-                    button: {
-                        backgroundColor: '#dc2626',
-                        right: 20,
-                        bottom: 20,
-                        size: 56,
-                        iconColor: 'white',
-                        customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
-                    },
                     chatWindow: {
                         showTitle: true,
+                        showAgentMessages: true,
                         title: 'Blog Manager',
                         titleAvatarSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
                         welcomeMessage: 'Hello! I\'m your blog management assistant. How can I help you today?',
                         errorMessage: 'Oops! Something went wrong. Please try again.',
                         backgroundColor: '#ffffff',
-                        height: 650,
-                        width: 420,
+                        height: '100%',
+                        width: '100%',
                         fontSize: 15,
                         starterPrompts: [
                             "List all my blog posts",
