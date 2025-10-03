@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}The New Heretics{% endblock %}</title>
+    <meta name="description" content="{% block description %}Where the need for belonging ends, truth begins.{% endblock %}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://thenewheretics.blog{% block canonical %}{% endblock %}">
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="The New Heretics" href="{{ url_for('rss_feed') }}">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}The New Heretics{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Where the need for belonging ends, truth begins.{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="https://thenewheretics.blog{% block og_url %}{% endblock %}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{% block twitter_title %}The New Heretics{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Where the need for belonging ends, truth begins.{% endblock %}">
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="wrap">
+            <a class="brand" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/nh-logo.png') }}" alt="The New Heretics" class="brand-logo">
+            </a>
+            <nav class="nav">
+                <a href="{{ url_for('archive') }}">Archive</a>
+                <a href="{{ url_for('rss_feed') }}">RSS</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="site-main" id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        © The New Heretics, {{ current_year }} • <a href="{{ url_for('rss_feed') }}">RSS</a>
+    </footer>
+</body>
+</html>

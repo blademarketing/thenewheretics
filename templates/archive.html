@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Archive — The New Heretics{% endblock %}
+{% block description %}Complete archive of all essays from The New Heretics{% endblock %}
+{% block canonical %}/archive/{% endblock %}
+{% block og_url %}/archive/{% endblock %}
+
+{% block content %}
+<section class="archive">
+    <h1>Archive</h1>
+
+    {% if posts_by_year %}
+        {% for year, posts in posts_by_year.items()|sort(reverse=True) %}
+        <h2>{{ year }}</h2>
+        <ul>
+            {% for post in posts %}
+            <li>
+                <span class="date">{{ post.published_at.strftime('%b %d') if post.published_at else post.created_at.strftime('%b %d') }}</span>
+                —
+                <a href="{{ url_for('post', slug=post.slug) }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    {% else %}
+    <p class="summary">No posts published yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

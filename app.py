@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Response, abort
 from datetime import datetime
 from models import db, BlogPost
 from functools import wraps
+from collections import defaultdict
 import re
 import os
 from dotenv import load_dotenv
+import markdown
 
 # Load environment variables
 load_dotenv()
@@ -35,6 +37,11 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+# Context processor for templates
+@app.context_processor
+def inject_current_year():
+    return {'current_year': datetime.now().year}
+
 def generate_slug(title):
     """Generate URL-friendly slug from title"""
     slug = title.lower()
@@ -42,10 +49,80 @@ def generate_slug(title):
     slug = re.sub(r'[-\s]+', '-', slug)
     return slug.strip('-')
 
-# Frontend route
+def format_content(content):
+    """Convert markdown to HTML and format content"""
+    md = markdown.Markdown(extensions=['extra', 'nl2br'])
+    return md.convert(content)
+
+# Frontend Routes
 @app.route('/')
 def index():
-    return render_template('index.html')
+    """Home page with featured post and recent posts"""
+    # Get most recent published post for featured
+    featured_post = BlogPost.query.filter_by(is_published=True).order_by(
+        BlogPost.published_at.desc()
+    ).first()
+
+    # Get next 5 recent published posts
+    recent_posts = BlogPost.query.filter_by(is_published=True).order_by(
+        BlogPost.published_at.desc()
+    ).offset(1).limit(5).all()
+
+    return render_template('home.html', featured_post=featured_post, recent_posts=recent_posts)
+
+@app.route('/posts/<slug>/')
+def post(slug):
+    """Individual post page"""
+    post = BlogPost.query.filter_by(slug=slug, is_published=True).first_or_404()
+    # Format content as HTML
+    post.content = format_content(post.content)
+    return render_template('post.html', post=post)
+
+@app.route('/archive/')
+def archive():
+    """Archive page with all posts grouped by year"""
+    posts = BlogPost.query.filter_by(is_published=True).order_by(
+        BlogPost.published_at.desc()
+    ).all()
+
+    # Group posts by year
+    posts_by_year = defaultdict(list)
+    for post in posts:
+        year = post.published_at.year if post.published_at else post.created_at.year
+        posts_by_year[year].append(post)
+
+    return render_template('archive.html', posts_by_year=dict(posts_by_year))
+
+@app.route('/rss.xml')
+def rss_feed():
+    """RSS feed for the blog"""
+    posts = BlogPost.query.filter_by(is_published=True).order_by(
+        BlogPost.published_at.desc()
+    ).limit(20).all()
+
+    rss = ['<?xml version="1.0" encoding="UTF-8"?>']
+    rss.append('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
+    rss.append('<channel>')
+    rss.append('<title>The New Heretics</title>')
+    rss.append('<link>https://thenewheretics.blog</link>')
+    rss.append('<description>Where the need for belonging ends, truth begins.</description>')
+    rss.append('<atom:link href="https://thenewheretics.blog/rss.xml" rel="self" type="application/rss+xml" />')
+
+    for post in posts:
+        rss.append('<item>')
+        rss.append(f'<title><![CDATA[{post.title}]]></title>')
+        rss.append(f'<link>https://thenewheretics.blog/posts/{post.slug}/</link>')
+        rss.append(f'<guid>https://thenewheretics.blog/posts/{post.slug}/</guid>')
+        if post.excerpt:
+            rss.append(f'<description><![CDATA[{post.excerpt}]]></description>')
+        if post.published_at:
+            rss.append(f'<pubDate>{post.published_at.strftime("%a, %d %b %Y %H:%M:%S +0000")}</pubDate>')
+        rss.append('</item>')
+
+    rss.append('</channel>')
+    rss.append('</rss>')
+
+    return Response('\n'.join(rss), mimetype='application/rss+xml')
 
 # API Routes for Blog Management
 

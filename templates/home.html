@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}The New Heretics — Where the need for belonging ends, truth begins{% endblock %}
+{% block canonical %}/{% endblock %}
+{% block og_url %}/{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <h1>Where the need for belonging ends, truth begins.</h1>
+</section>
+
+{% if featured_post %}
+<!-- Featured Post -->
+<section class="featured">
+    <article>
+        <h2><a href="{{ url_for('post', slug=featured_post.slug) }}">{{ featured_post.title }}</a></h2>
+        <p class="meta">{{ featured_post.published_at.strftime('%b %d, %Y') if featured_post.published_at else featured_post.created_at.strftime('%b %d, %Y') }}</p>
+        {% if featured_post.excerpt %}
+        <p class="summary">{{ featured_post.excerpt }}</p>
+        {% endif %}
+        {% if featured_post.tags %}
+        <div class="tags">
+            {% for tag in featured_post.tags.split(',') if tag.strip() %}
+            <span class="tag">{{ tag.strip() }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </article>
+</section>
+{% endif %}
+
+{% if recent_posts %}
+<hr class="rule">
+
+<!-- Recent Posts -->
+<section class="post-list">
+    {% for post in recent_posts %}
+    <article>
+        <h3><a href="{{ url_for('post', slug=post.slug) }}">{{ post.title }}</a></h3>
+        <p class="meta">{{ post.published_at.strftime('%b %d, %Y') if post.published_at else post.created_at.strftime('%b %d, %Y') }}</p>
+        {% if post.excerpt %}
+        <p class="summary">{{ post.excerpt }}</p>
+        {% endif %}
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<section class="post-list">
+    <p class="summary" style="text-align: center; padding: 48px 0;">No posts published yet. Stay tuned for thought-provoking essays.</p>
+</section>
+{% endif %}
+{% endblock %}
