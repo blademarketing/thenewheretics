@@ -194,7 +194,7 @@ def create_post():
         excerpt=data.get('excerpt', ''),
         author=data.get('author', 'The New Heretics'),
         tags=','.join(data['tags']) if 'tags' in data and isinstance(data['tags'], list) else data.get('tags', ''),
-        is_published=data.get('is_published', False)
+        is_published=data.get('is_published', True)
     )
 
     if post.is_published and not post.published_at:
