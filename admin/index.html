@@ -236,14 +236,16 @@
             width: 100%;
             background: var(--surface);
             border: 1px solid var(--rule);
-            overflow: hidden;
+            overflow: auto;
             min-height: 0;
+            position: relative;
         }
 
         flowise-fullchatbot {
             width: 100%;
             height: 100%;
             display: block;
+            overflow-y: auto;
         }
 
         @media (max-width: 768px) {
