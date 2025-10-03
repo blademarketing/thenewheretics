@@ -249,6 +249,54 @@ a:focus {
   font-style: italic;
 }
 
+/* Share Section */
+.share-section {
+  margin: 48px 0 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.share-label {
+  font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.share-btn:hover {
+  background: var(--bg);
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.share-btn svg {
+  flex-shrink: 0;
+}
+
 /* Archive Page */
 .archive {
   max-width: var(--max-post);
