@@ -248,6 +248,11 @@
             overflow-y: auto;
         }
 
+        /* Make avatar SVGs appear white */
+        flowise-fullchatbot img[src*=".svg"] {
+            filter: brightness(0) invert(1);
+        }
+
         @media (max-width: 768px) {
             .admin-header {
                 padding: 0.75rem 1rem;
@@ -383,7 +388,7 @@
                             backgroundColor: '#E10600',
                             textColor: '#F5F5F5',
                             showAvatar: true,
-                            avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png'
+                            avatarSrc: 'https://www.svgheart.com/wp-content/uploads/2022/07/halloween-witch_546-430-min.png'
                         },
                         textInput: {
                             placeholder: 'Ask me anything about your blog...',
