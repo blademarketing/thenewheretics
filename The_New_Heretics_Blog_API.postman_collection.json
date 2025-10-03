@@ -1,28 +1,8 @@
 {
 	"info": {
 		"name": "The New Heretics Blog API",
-		"description": "Complete API collection for managing The New Heretics blog. Includes authentication via X-API-Key header.",
+		"description": "Complete API collection for managing The New Heretics blog. API key is pre-configured on all protected endpoints.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"auth": {
-		"type": "apikey",
-		"apikey": [
-			{
-				"key": "value",
-				"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
-				"type": "string"
-			},
-			{
-				"key": "key",
-				"value": "X-API-Key",
-				"type": "string"
-			},
-			{
-				"key": "in",
-				"value": "header",
-				"type": "string"
-			}
-		]
 	},
 	"item": [
 		{
@@ -31,9 +11,6 @@
 				{
 					"name": "Get All Posts",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -81,9 +58,6 @@
 				{
 					"name": "Get Post by ID",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -106,9 +80,6 @@
 				{
 					"name": "Get Post by Slug",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -132,9 +103,6 @@
 				{
 					"name": "Get Published Posts",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -168,6 +136,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "X-API-Key",
+								"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -198,6 +171,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "X-API-Key",
+								"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -225,7 +203,13 @@
 					"name": "Toggle Publish Status",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "https://thenewheretics.blog/api/posts/1/publish",
 							"protocol": "https",
@@ -248,7 +232,13 @@
 					"name": "Delete Post",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "https://thenewheretics.blog/api/posts/1",
 							"protocol": "https",
@@ -267,10 +257,7 @@
 					"response": []
 				}
 			],
-			"description": "Authenticated endpoints for managing blog posts (create, update, publish, delete).",
-			"auth": {
-				"type": "inherit"
-			}
+			"description": "Authenticated endpoints for managing blog posts (create, update, publish, delete)."
 		},
 		{
 			"name": "Admin Endpoints",
@@ -279,7 +266,13 @@
 					"name": "Get Draft Posts",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "https://thenewheretics.blog/api/posts/drafts",
 							"protocol": "https",
@@ -301,7 +294,13 @@
 					"name": "Get Blog Statistics",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "98vQa7KezwhRAhq1N67SgAL7LDv30w-yGq411t5klVM",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "https://thenewheretics.blog/api/posts/stats",
 							"protocol": "https",
@@ -320,10 +319,7 @@
 					"response": []
 				}
 			],
-			"description": "Administrative endpoints requiring authentication.",
-			"auth": {
-				"type": "inherit"
-			}
+			"description": "Administrative endpoints requiring authentication."
 		}
 	]
 }
