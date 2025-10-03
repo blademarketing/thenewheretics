@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, Response, abort
+from flask import Flask, render_template, request, jsonify, Response, abort, send_file
 from datetime import datetime
 from models import db, BlogPost
 from functools import wraps
@@ -7,6 +7,8 @@ import re
 import os
 from dotenv import load_dotenv
 import markdown
+from PIL import Image, ImageDraw, ImageFont
+from io import BytesIO
 
 # Load environment variables
 load_dotenv()
@@ -131,6 +133,92 @@ def rss_feed():
     rss.append('</rss>')
 
     return Response('\n'.join(rss), mimetype='application/rss+xml')
+
+@app.route('/og-image.png')
+def og_image_default():
+    """Generate default OG image for the site"""
+    return generate_og_image(
+        title="THE NEW HERETICS",
+        subtitle="Where the need for belonging ends, truth begins."
+    )
+
+@app.route('/og-image/<slug>.png')
+def og_image_post(slug):
+    """Generate OG image for a specific post"""
+    post = BlogPost.query.filter_by(slug=slug, is_published=True).first_or_404()
+    return generate_og_image(
+        title=post.title,
+        subtitle=post.excerpt or "Fearless essays on culture, ideology, and truth."
+    )
+
+def generate_og_image(title, subtitle):
+    """Generate an Open Graph image with title and subtitle"""
+    # Image dimensions (1200x630 is standard for OG images)
+    width, height = 1200, 630
+
+    # Create image with dark background
+    img = Image.new('RGB', (width, height), color='#0A0A0A')
+    draw = ImageDraw.Draw(img)
+
+    # Try to load custom fonts, fallback to default
+    try:
+        # Try to use system fonts
+        title_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 60)
+        subtitle_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 32)
+    except:
+        # Fallback to default font
+        title_font = ImageFont.load_default()
+        subtitle_font = ImageFont.load_default()
+
+    # Colors
+    text_color = '#F5F5F5'
+    accent_color = '#E10600'
+
+    # Draw red accent bar on left
+    draw.rectangle([(0, 0), (12, height)], fill=accent_color)
+
+    # Calculate text positioning
+    padding = 80
+    max_width = width - (padding * 2)
+
+    # Wrap title text if too long
+    words = title.split()
+    lines = []
+    current_line = []
+
+    for word in words:
+        test_line = ' '.join(current_line + [word])
+        bbox = draw.textbbox((0, 0), test_line, font=title_font)
+        if bbox[2] - bbox[0] <= max_width:
+            current_line.append(word)
+        else:
+            if current_line:
+                lines.append(' '.join(current_line))
+            current_line = [word]
+
+    if current_line:
+        lines.append(' '.join(current_line))
+
+    # Limit to 3 lines
+    lines = lines[:3]
+
+    # Draw title (centered vertically with subtitle)
+    title_height = len(lines) * 75
+    start_y = (height - title_height - 100) // 2
+
+    for i, line in enumerate(lines):
+        draw.text((padding, start_y + i * 75), line, font=title_font, fill=text_color)
+
+    # Draw subtitle below title
+    subtitle_y = start_y + title_height + 40
+    draw.text((padding, subtitle_y), subtitle, font=subtitle_font, fill='#B3B3B3')
+
+    # Save to BytesIO
+    img_io = BytesIO()
+    img.save(img_io, 'PNG', quality=95)
+    img_io.seek(0)
+
+    return send_file(img_io, mimetype='image/png')
 
 # API Routes for Blog Management
 
